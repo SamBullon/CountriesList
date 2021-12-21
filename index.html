@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>List of Countries</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="css/paginate.css">
+    <script src="js/paginate.js"></script>   
+</head>
+<body>
+<script src="js/paginate.js"></script>
+    <h1 class="">List of Countries</h1>
+    <ul id="list">
+        <li>Unidted States</li>
+        <li>Germany</li>
+        <li>China</li>
+    </ul>
+</body>
+<script type="text/javascript">
+    var xhttp = new XMLHttpRequest();
+    var respJSON = [];
+    xhttp.onreadystatechange = function (){
+        if(this.readyState == 4 && this.status == 200){
+            resp = this.responseText;
+            respJSON = JSON.parse(resp);
+
+            html = document.getElementById("list");
+            html.innerHTML = "";
+            
+            
+            for (var i=0; i< respJSON.length; i++){
+                html.innerHTML += "<li id="+i+" onclick='clickMe("+i+")'>" + respJSON[i].name + "</li>"
+            }
+        }
+    }
+    xhttp.open("GET", "https://restcountries.com/v2/all", true);
+    xhttp.send();
+
+    function clickMe(index){
+        li = document.getElementById(index);
+        img = document.createElement("img")
+        img.src = respJSON[index].flag;
+        li.append(img);
+    }
+</script>
+</html>
